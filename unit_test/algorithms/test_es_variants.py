@@ -1,6 +1,6 @@
 import torch
 
-from evox.algorithms import OpenES
+from evox.algorithms import OpenES, XNES, SeparableNES, DES, SNES, ARS, ASEBO, PersistentES, Noise_reuse_es, GuidedES, ESMC
 
 from .test_base import TestBase
 
@@ -25,6 +25,84 @@ class TestESVariants(TestBase):
                 learning_rate=1e-2,
                 noise_stdev=5,
                 optimizer="adam",
+            ),
+            XNES(
+                pop_size=pop_size,
+                init_mean=torch.rand(dim) * (ub - lb) + lb,
+                init_covar = torch.eye(dim), 
+            ),
+            SeparableNES(
+                pop_size=pop_size, 
+                init_mean=torch.rand(dim) * (ub - lb) + lb, 
+                init_std=torch.full( (dim,), 1 ), 
+            ),
+            DES(
+                pop_size=pop_size,
+                center_init=torch.rand(dim) * (ub - lb) + lb,
+            ),
+            ESMC(
+                pop_size=pop_size | 1,
+                center_init=torch.rand(dim) * (ub - lb) + lb,
+            ),
+            ESMC(
+                pop_size=pop_size | 1,
+                center_init=torch.rand(dim) * (ub - lb) + lb,
+                optimizer="adam",
+            ),
+            SNES(
+                pop_size=pop_size,
+                center_init=torch.rand(dim) * (ub - lb) + lb,
+                weight_type= "recomb",
+            ),
+            SNES(
+                pop_size=pop_size,
+                center_init=torch.rand(dim) * (ub - lb) + lb,
+                weight_type= "temp",
+            ),
+            PersistentES(
+                pop_size=pop_size,
+                center_init=torch.rand(dim) * (ub - lb) + lb,
+            ),
+            PersistentES(
+                pop_size=pop_size,
+                center_init=torch.rand(dim) * (ub - lb) + lb,
+                optimizer= "adam",
+            ),
+            GuidedES(
+                pop_size=pop_size,
+                center_init=torch.rand(dim) * (ub - lb) + lb,
+            ),
+            GuidedES(
+                pop_size=pop_size,
+                center_init=torch.rand(dim) * (ub - lb) + lb,
+                optimizer= "adam",
+            ),
+            Noise_reuse_es(
+                pop_size=pop_size,
+                center_init=torch.rand(dim) * (ub - lb) + lb,
+            ),
+            Noise_reuse_es(
+                pop_size=pop_size,
+                center_init=torch.rand(dim) * (ub - lb) + lb,
+                optimizer= "adam",
+            ),
+            ARS(
+                pop_size=pop_size,
+                center_init=torch.rand(dim) * (ub - lb) + lb,
+            ),
+            ARS(
+                pop_size=pop_size,
+                center_init=torch.rand(dim) * (ub - lb) + lb,
+                optimizer= "adam",
+            ),
+            ASEBO(
+                pop_size=pop_size,
+                center_init=torch.rand(dim) * (ub - lb) + lb,
+            ),
+            ASEBO(
+                pop_size=pop_size,
+                center_init=torch.rand(dim) * (ub - lb) + lb,
+                optimizer= "adam",
             ),
         ]
 
